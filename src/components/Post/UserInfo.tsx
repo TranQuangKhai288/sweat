@@ -13,9 +13,15 @@ interface UserInfoProps {
   username: string;
   avatarUrl: string;
   time: Date;
+  onEditPress?: () => void; // Thêm prop này nếu cần
 }
 
-const UserInfo: React.FC<UserInfoProps> = ({ username, avatarUrl, time }) => {
+const UserInfo: React.FC<UserInfoProps> = ({
+  username,
+  avatarUrl,
+  time,
+  onEditPress,
+}) => {
   //Tính thời gian đã đăng trước đó
   const timeDiff = new Date().getTime() - time.getTime();
   const minutesDiff = Math.floor(timeDiff / 1000 / 60);
@@ -70,7 +76,7 @@ const UserInfo: React.FC<UserInfoProps> = ({ username, avatarUrl, time }) => {
         </View>
       </View>
 
-      <TouchableOpacity>
+      <TouchableOpacity onPress={onEditPress}>
         <Ellipsis size={26} color="#424242" />
       </TouchableOpacity>
     </View>

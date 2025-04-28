@@ -18,7 +18,7 @@ const PostSearchItem: React.FC<any> = ({ item }: { item: any }) => {
       <View className="flex-row items-center mt-1">
         <Image
           source={{ uri: "https://i.pravatar.cc/100?img=5" }}
-          className="w-7 h-7 rounded-full mr-2"
+          className="w-7 h-7 rounded-full mr-2 bg-slate-500"
         />
         <Text className="text-gray-500 font-bold">{item.username}</Text>
       </View>

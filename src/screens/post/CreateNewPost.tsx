@@ -195,11 +195,11 @@ const CreateNewPost: React.FC = () => {
           <View className="flex-row items-center mb-3">
             <Image
               source={{ uri: user?.avatar }}
-              className="w-14 h-14 mr-2 rounded-full"
+              className="w-14 h-14 mr-2 rounded-full bg-slate-500"
             />
             <View className="flex-col w-full items-start justify-center ml-2">
-              <Text className="text-black font-semibold text-base mb-1 ">
-                {user?.name}
+              <Text className="text-black font-semibold text-lg mb-2 ">
+                {user?.name || "Người dùng"}
               </Text>
               <ScrollView
                 horizontal

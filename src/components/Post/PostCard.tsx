@@ -16,6 +16,7 @@ interface PostProps {
   comments: number;
   content: string;
   onCommentPress: () => void; // <-- thêm dòng này
+  onEditPress?: () => void;
 }
 
 const PostCard: React.FC<PostProps> = ({
@@ -23,16 +24,21 @@ const PostCard: React.FC<PostProps> = ({
   avatarUrl,
   time,
   imageUrls,
-
   likes,
   comments,
   content,
   onCommentPress, // <-- nhận prop
+  onEditPress,
 }) => {
   return (
     <View className="w-full mb-2 bg-white p-2 shadow-black/10 shadow-md">
       {/* User Info */}
-      <UserInfo username={username} time={time} avatarUrl={avatarUrl} />
+      <UserInfo
+        username={username}
+        time={time}
+        avatarUrl={avatarUrl}
+        onEditPress={onEditPress}
+      />
 
       {/* Post Image */}
       <PostImage imageUrls={imageUrls} />

@@ -3,6 +3,8 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Text, View, StyleSheet } from "react-native";
 import { Home, Users, Bell, Search } from "lucide-react-native";
 import HomeScreen from "../screens/Home";
+import FriendsScreen from "../screens/FriendScreen";
+import NotificationScreen from "../screens/Notification";
 
 type TabParamList = {
   Home: undefined;
@@ -82,8 +84,8 @@ const MainTabNavigator: React.FC = () => {
       }}
     >
       <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Friends" component={HomeScreen} />
-      <Tab.Screen name="Notification" component={HomeScreen} />
+      <Tab.Screen name="Friends" component={FriendsScreen} />
+      <Tab.Screen name="Notification" component={NotificationScreen} />
       <Tab.Screen name="Profile" component={HomeScreen} />
     </Tab.Navigator>
   );

@@ -20,7 +20,7 @@ const RecentSearchItem: React.FC<RecentSearchItemProps> = ({
       <View className="flex-row items-center">
         <Image
           source={{ uri: avatarUrl }}
-          className="w-12 h-12 rounded-full mr-3"
+          className="w-12 h-12 rounded-full mr-3 bg-slate-500"
         />
         <View>
           <Text className="font-bold text-[#424242] text-lg">{name}</Text>

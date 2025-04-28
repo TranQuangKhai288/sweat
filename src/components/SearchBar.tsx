@@ -16,7 +16,7 @@ interface SearchBarProps {
 
 const SearchBar: React.FC<SearchBarProps> = ({
   onSearch,
-  placeholder = "Search",
+  placeholder = "Tìm kiếm",
 }) => {
   const [query, setQuery] = useState("");
   const [isFocused, setIsFocused] = useState(false);

@@ -33,15 +33,14 @@ const Actions: React.FC<ActionsProps> = ({
         <View className="flex flex-row items-center mr-4">
           <Heart
             size={18}
-            color="#F96D40"
+            color={isLiked ? "#F96D40" : "#424242"}
             fill={isLiked ? "#F96D40" : "transparent"}
-            className="mr-1"
           />
-          <Text className="text-base text-gray-800">{likeCount}</Text>
+          <Text className="text-base text-gray-800 ml-1">{likeCount}</Text>
         </View>
         <View className="flex flex-row items-center mr-4">
-          <LucideMessageCircle size={18} color="#424242" className="mr-1" />
-          <Text className="text-base text-gray-800">{comments}</Text>
+          <LucideMessageCircle size={18} color="#424242" />
+          <Text className="text-base text-gray-800 ml-1">{comments}</Text>
         </View>
       </View>
 
@@ -52,7 +51,7 @@ const Actions: React.FC<ActionsProps> = ({
         >
           <Heart
             size={25}
-            color="#424242"
+            color={isLiked ? "#F96D40" : "#424242"}
             fill={isLiked ? "#F96D40" : "transparent"}
           />
           <Text className="text-base text-gray-800 ml-1">Yêu thích</Text>

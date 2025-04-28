@@ -1,4 +1,4 @@
-import React, { useRef, useMemo, useCallback } from "react";
+import React, { useRef, useMemo, useCallback, useState } from "react";
 import {
   View,
   Text,
@@ -7,17 +7,22 @@ import {
   ScrollView,
   View as RNView,
   Pressable,
+  Button,
+  TextInput,
+  FlatList,
 } from "react-native";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../navigation/AppNavigation";
-import { Search } from "lucide-react-native";
+import { Search, Edit, Trash2 } from "lucide-react-native";
+import { useBottomSheet } from "../contexts/BottomSheetContext";
 import PostCard from "../components/Post/PostCard";
-import BottomSheet, {
-  BottomSheetBackdrop,
-  BottomSheetView,
-} from "@gorhom/bottom-sheet";
+import PostDetailTabs from "../components/Post/PostDetailTabs";
+// import BottomSheet, {
+//   BottomSheetBackdrop,
+//   BottomSheetView,
+// } from "@gorhom/bottom-sheet";
 // import BottomSheet from "@gorhom/bottom-sheet";
 
 export const mockPosts = [
@@ -84,12 +89,14 @@ export const mockPosts = [
   },
 ];
 
-// ... giữ nguyên các import và mockPosts như bạn đã viết ở trên
-
 const HomeScreen: React.FC = () => {
   const { state } = useAuth();
   const { user } = state;
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+  const { openBottomSheet, closeBottomSheet } = useBottomSheet();
+  const [selectedTab, setSelectedTab] = useState<"likes" | "comments">(
+    "comments"
+  );
 
   const handlePlusPress = () => {
     navigation.navigate("CreateNewPost");
@@ -99,34 +106,9 @@ const HomeScreen: React.FC = () => {
     navigation.navigate("SearchScreen");
   };
 
-  const bottomSheetRef = useRef<BottomSheet>(null);
-
-  // variables
-  const snapPoints = useMemo(() => ["25%", "50%", "75%"], []);
-
-  // callbacks
-  const handleSheetChanges = useCallback((index: number) => {
-    console.log("handleSheetChanges", index);
-  }, []);
-
-  const handleClosePress = useCallback(() => {
-    bottomSheetRef.current?.close();
-  }, []);
-
-  // renders
-  const renderBackdrop = useCallback(
-    (props: any) => (
-      <BottomSheetBackdrop
-        {...props}
-        disappearsOnIndex={-1}
-        appearsOnIndex={0}
-      />
-    ),
-    []
-  );
-
+  console.log(selectedTab, "selectedTab");
   return (
-    <View className="flex-1 bg-white pt-10">
+    <View className="flex-1 bg-white pt-10 px-2">
       {/* Header */}
       <View
         className="flex-row justify-between items-center py-2 border-b"
@@ -158,7 +140,11 @@ const HomeScreen: React.FC = () => {
       </View>
 
       {/* Post list */}
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        className="flex-1 bg-white"
+        contentContainerStyle={{ paddingBottom: 100 }}
+      >
         {mockPosts.map((post) => (
           <PostCard
             key={post.id}
@@ -169,53 +155,37 @@ const HomeScreen: React.FC = () => {
             likes={post.likes}
             comments={post.comments}
             content={post.caption}
-            onCommentPress={() => {
-              bottomSheetRef.current?.expand(); // <-- bấm comment thì mở bottom sheet
-            }}
+            onCommentPress={() =>
+              openBottomSheet(
+                <View className="flex-1">
+                  <PostDetailTabs />
+                </View>,
+                ["70%"]
+              )
+            }
+            onEditPress={() =>
+              openBottomSheet(
+                <View className="flex-1">
+                  <View className="flex-row items-center py-2 bg-white">
+                    <Edit size={28} color="black" className="mr-1 mb-2" />
+                    <Text className="text-xl ml-4">Chỉnh sửa bài viết</Text>
+                  </View>
+                  <TouchableOpacity
+                    className="flex-row items-center py-2 bg-white"
+                    onPress={() => {
+                      //
+                    }}
+                  >
+                    <Trash2 size={28} color="black" className="mr-1 mb-2" />
+                    <Text className="text-xl ml-4">Xoá bài viết</Text>
+                  </TouchableOpacity>
+                </View>,
+                ["20%"]
+              )
+            }
           />
         ))}
       </ScrollView>
-
-      <BottomSheet
-        ref={bottomSheetRef}
-        index={-1}
-        snapPoints={snapPoints}
-        onChange={handleSheetChanges}
-        enablePanDownToClose={true}
-        backdropComponent={renderBackdrop}
-      >
-        <BottomSheetView className="flex-1 p-4 items-center">
-          <Text className="text-2xl font-bold mb-2 text-gray-800">
-            Bottom Sheet Example
-          </Text>
-          <Text className="text-base text-gray-600 text-center mb-5">
-            Đây là ví dụ đơn giản về bottom sheet sử dụng @gorhom/bottom-sheet
-            với React Native Reanimated và NativeWind.
-          </Text>
-
-          <View className="w-full mb-3">
-            <Pressable
-              className="bg-red-500 py-3 px-6 rounded-lg items-center"
-              onPress={handleClosePress}
-            >
-              <Text className="text-white font-bold">Đóng</Text>
-            </Pressable>
-          </View>
-
-          <View className="w-full mt-5 p-4 bg-gray-100 rounded-lg">
-            <Text className="text-lg font-bold mb-2 text-gray-800">
-              Nội dung mẫu
-            </Text>
-            <Text className="text-sm text-gray-700 mb-2">
-              Bạn có thể thêm bất kỳ nội dung nào ở đây. Bottom sheet này có thể
-              snap đến các chiều cao khác nhau: 25%, 50%, và 75% của màn hình.
-            </Text>
-            <Text className="text-sm text-gray-700">
-              Hãy thử kéo sheet đến các snap point khác nhau!
-            </Text>
-          </View>
-        </BottomSheetView>
-      </BottomSheet>
     </View>
   );
 };
