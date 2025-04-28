@@ -1,12 +1,5 @@
 import React, { useEffect } from "react";
-import { View, Text, TextInput, TouchableOpacity, Image } from "react-native";
-import {
-  MaterialIcons,
-  Feather,
-  FontAwesome,
-  Fontisto,
-  Ionicons,
-} from "@expo/vector-icons";
+import { View } from "react-native";
 
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../navigation/AppNavigation";

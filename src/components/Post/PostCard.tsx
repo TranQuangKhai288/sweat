@@ -15,6 +15,7 @@ interface PostProps {
   likes: number;
   comments: number;
   content: string;
+  onCommentPress: () => void; // <-- thêm dòng này
 }
 
 const PostCard: React.FC<PostProps> = ({
@@ -26,6 +27,7 @@ const PostCard: React.FC<PostProps> = ({
   likes,
   comments,
   content,
+  onCommentPress, // <-- nhận prop
 }) => {
   return (
     <View className="w-full mb-2 bg-white p-2 shadow-black/10 shadow-md">
@@ -39,7 +41,11 @@ const PostCard: React.FC<PostProps> = ({
       {/* <Rating score={score} /> */}
 
       {/* Actions (Like, Comment) */}
-      <Actions likes={likes} comments={comments} />
+      <Actions
+        likes={likes}
+        comments={comments}
+        onCommentPress={onCommentPress} // <-- truyền xuống cho Actions
+      />
 
       {/* Post Content */}
       <PostContent content={content} />

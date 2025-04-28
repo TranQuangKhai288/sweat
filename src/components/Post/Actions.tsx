@@ -1,40 +1,42 @@
-import React, { useRef, useState } from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import React, { useRef, useState, useCallback, useMemo } from "react";
+import { View, Text, TouchableOpacity, Pressable } from "react-native";
 import { Heart, LucideMessageCircle } from "lucide-react-native";
-import BottomSheet from "@gorhom/bottom-sheet";
 
 interface ActionsProps {
   likes: number;
   comments: number;
+  onCommentPress: () => void; // <-- thêm prop này
 }
 
-const Actions: React.FC<ActionsProps> = ({ likes, comments }) => {
+const Actions: React.FC<ActionsProps> = ({
+  likes,
+  comments,
+  onCommentPress,
+}) => {
   const [likeCount, setLikeCount] = useState(likes);
-  const sheetRef = useRef<BottomSheet>(null);
+  const [isLiked, setIsLiked] = useState(false);
+
+  // BottomSheet setup
 
   const handleLike = () => {
-    setLikeCount(likeCount + 1); // Tăng số lượng yêu thích
-  };
-
-  const toggleCommentSection = () => {
-    if (sheetRef.current) {
-      // Kiểm tra nếu bottom sheet chưa được mở thì mở nó
-      console.log("BottomSheet is opened");
-      sheetRef.current.expand(); // Mở BottomSheet
+    if (isLiked) {
+      setLikeCount(likeCount - 1);
+    } else {
+      setLikeCount(likeCount + 1);
     }
-  };
-
-  const closeBottomSheet = () => {
-    if (sheetRef.current) {
-      sheetRef.current.close(); // Đóng BottomSheet
-    }
+    setIsLiked(!isLiked);
   };
 
   return (
     <View className="flex flex-1 flex-col my-3">
       <View className="flex flex-row items-center">
         <View className="flex flex-row items-center mr-4">
-          <Heart size={18} color="#F96D40" fill={"#F96D40"} className="mr-1" />
+          <Heart
+            size={18}
+            color="#F96D40"
+            fill={isLiked ? "#F96D40" : "transparent"}
+            className="mr-1"
+          />
           <Text className="text-base text-gray-800">{likeCount}</Text>
         </View>
         <View className="flex flex-row items-center mr-4">
@@ -48,30 +50,21 @@ const Actions: React.FC<ActionsProps> = ({ likes, comments }) => {
           className="flex flex-row items-center mr-4"
           onPress={handleLike}
         >
-          <Heart size={25} color="#424242" />
+          <Heart
+            size={25}
+            color="#424242"
+            fill={isLiked ? "#F96D40" : "transparent"}
+          />
           <Text className="text-base text-gray-800 ml-1">Yêu thích</Text>
         </TouchableOpacity>
         <TouchableOpacity
           className="flex flex-row items-center"
-          onPress={toggleCommentSection}
+          onPress={onCommentPress} // <-- gọi hàm khi bấm bình luận
         >
           <LucideMessageCircle size={25} color="#424242" />
           <Text className="text-base text-gray-800 ml-1">Bình luận</Text>
         </TouchableOpacity>
       </View>
-
-      {/* BottomSheet */}
-      <BottomSheet ref={sheetRef} snapPoints={["25%", "50%", "90%"]} index={0}>
-        <View style={{ padding: 20 }}>
-          <Text>
-            Bạn có thể thay đổi nội dung ở đây, ví dụ như hiển thị các bình
-            luận.
-          </Text>
-          <TouchableOpacity onPress={closeBottomSheet}>
-            <Text>Đóng BottomSheet</Text>
-          </TouchableOpacity>
-        </View>
-      </BottomSheet>
     </View>
   );
 };
