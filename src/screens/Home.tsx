@@ -94,9 +94,6 @@ const HomeScreen: React.FC = () => {
   const { user } = state;
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const { openBottomSheet, closeBottomSheet } = useBottomSheet();
-  const [selectedTab, setSelectedTab] = useState<"likes" | "comments">(
-    "comments"
-  );
 
   const handlePlusPress = () => {
     navigation.navigate("CreateNewPost");
@@ -105,8 +102,6 @@ const HomeScreen: React.FC = () => {
   const handleSearchPress = () => {
     navigation.navigate("SearchScreen");
   };
-
-  console.log(selectedTab, "selectedTab");
   return (
     <View className="flex-1 bg-white pt-10 px-2">
       {/* Header */}

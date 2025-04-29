@@ -1,10 +1,11 @@
 import React, { memo } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, Image } from "react-native";
 import { Home, Users, Bell, Search } from "lucide-react-native";
 import HomeScreen from "../screens/Home";
 import FriendsScreen from "../screens/FriendScreen";
 import NotificationScreen from "../screens/Notification";
+import ProfileScreen from "../screens/Profile";
 
 type TabParamList = {
   Home: undefined;
@@ -48,7 +49,25 @@ const MainTabNavigator: React.FC = () => {
         return {
           tabBarIcon: ({ color }) => (
             <View className="items-center justify-center pt-2">
-              <Icon Component={IconComponent} size={size} color={color} />
+              {route.name !== "Profile" ? (
+                <Icon Component={IconComponent} size={size} color={color} />
+              ) : (
+                <View>
+                  <Image
+                    source={{
+                      uri: "https://cdn-icons-png.flaticon.com/512/168/168726.png",
+                    }}
+                    resizeMode="cover"
+                    style={{
+                      width: 32,
+                      height: 32,
+                      marginBottom: 4,
+                      borderRadius: 20,
+                      backgroundColor: "gray",
+                    }}
+                  />
+                </View>
+              )}
             </View>
           ),
           tabBarActiveTintColor: "#F96D40", // Màu khi active
@@ -86,7 +105,7 @@ const MainTabNavigator: React.FC = () => {
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Friends" component={FriendsScreen} />
       <Tab.Screen name="Notification" component={NotificationScreen} />
-      <Tab.Screen name="Profile" component={HomeScreen} />
+      <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
   );
 };

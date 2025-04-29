@@ -12,6 +12,8 @@ import { useAuth } from "../contexts/AuthContext";
 import MainTabNavigator from "./BottomTab";
 import CreateNewPost from "../screens/post/CreateNewPost";
 import SearchScreen from "../screens/post/SearchScreen";
+import EditProfile from "../screens/EditProfile";
+import Setting from "../screens/Setting";
 import Splash from "../screens/Splash";
 
 // import ProfileScreen from '../screens/ProfileScreen';
@@ -21,6 +23,8 @@ import Splash from "../screens/Splash";
 // Định nghĩa type cho stack navigation
 export type RootStackParamList = {
   Main: undefined;
+  EditProfile: undefined;
+  Setting: undefined;
   CreateNewPost: undefined;
   SearchScreen: undefined;
   Splash: undefined;
@@ -57,8 +61,8 @@ const AppNavigator: React.FC = () => {
         <Stack.Screen name="CreateNewPost" component={CreateNewPost} />
         <Stack.Screen name="SearchScreen" component={SearchScreen} />
 
-        {/* <Stack.Screen name="Profile" component={ProfileScreen} /> */}
-        {/* <Stack.Screen name="Match" component={MatchScreen} /> */}
+        <Stack.Screen name="EditProfile" component={EditProfile} />
+        <Stack.Screen name="Setting" component={Setting} />
         {/* <Stack.Screen name="Chat" component={ChatScreen} /> */}
       </Stack.Navigator>
     </NavigationContainer>
