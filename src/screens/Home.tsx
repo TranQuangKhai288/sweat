@@ -160,7 +160,7 @@ const HomeScreen: React.FC = () => {
             }
             onEditPress={() =>
               openBottomSheet(
-                <View className="flex-1">
+                <View className="flex-1 -mt-2 gap-2">
                   <View className="flex-row items-center py-2 bg-white">
                     <Edit size={28} color="black" className="mr-1 mb-2" />
                     <Text className="text-xl ml-4">Chỉnh sửa bài viết</Text>
@@ -175,7 +175,7 @@ const HomeScreen: React.FC = () => {
                     <Text className="text-xl ml-4">Xoá bài viết</Text>
                   </TouchableOpacity>
                 </View>,
-                ["20%"]
+                ["15%"]
               )
             }
           />

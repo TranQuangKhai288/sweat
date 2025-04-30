@@ -134,7 +134,10 @@ export const BottomSheetProvider: React.FC<{ children: ReactNode }> = ({
             />
           )}
         >
-          <BottomSheetView style={{ flex: 1, padding: 20 }}>
+          <BottomSheetView
+            // style={{ flex: 1, padding: 20 }}
+            className="flex-1 px-6 py-4"
+          >
             {content}
           </BottomSheetView>
         </BottomSheet>

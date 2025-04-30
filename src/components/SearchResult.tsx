@@ -99,7 +99,7 @@ const SearchResult: React.FC<SearchResultProps> = ({
           children={() => <FriendSearchResult friendsData={friendsData} />}
         />
         <Tab.Screen
-          name="Bài viêt"
+          name="Bài viết"
           children={() => <PostSearchResult postsData={postsData} />}
         />
       </Tab.Navigator>
@@ -142,7 +142,7 @@ const FriendSearchResult = ({ friendsData }: { friendsData: any[] }) => {
       keyExtractor={(item) => item.id}
       contentContainerStyle={{ paddingTop: 6 }}
       renderItem={({ item }) => (
-        <View className="flex-row items-center justify-between mb-4 px-4">
+        <View className="flex-row items-center justify-between mb-4">
           <View className="flex-row items-center">
             <Image
               source={{ uri: item.avatar }}
@@ -169,6 +169,7 @@ const FriendSearchResult = ({ friendsData }: { friendsData: any[] }) => {
         </View>
       )}
       style={{ backgroundColor: "#fff" }}
+      showsVerticalScrollIndicator={false}
     />
   );
 };
@@ -182,11 +183,12 @@ const PostSearchResult = ({ postsData }: { postsData: any[] }) => {
       numColumns={2}
       columnWrapperStyle={{
         justifyContent: "space-between",
-        paddingHorizontal: 16,
+        paddingHorizontal: 8,
       }}
       contentContainerStyle={{ paddingVertical: 16 }}
       renderItem={({ item }) => <PostSearchItem item={item} />}
       style={{ backgroundColor: "#fff" }}
+      showsVerticalScrollIndicator={false}
     />
   );
 };

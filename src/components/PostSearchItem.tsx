@@ -20,7 +20,7 @@ const PostSearchItem: React.FC<any> = ({ item }: { item: any }) => {
           source={{ uri: "https://i.pravatar.cc/100?img=5" }}
           className="w-7 h-7 rounded-full mr-2 bg-slate-500"
         />
-        <Text className="text-gray-500 font-bold">{item.username}</Text>
+        <Text className="text-[#424242] font-bold">{item.username}</Text>
       </View>
     </View>
   );

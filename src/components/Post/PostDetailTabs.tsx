@@ -12,6 +12,7 @@ import { useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { CommentItem } from "../CommentItem";
+import { ScrollView } from "react-native-gesture-handler";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -41,12 +42,24 @@ const likes = [
   { id: "23", username: "Alice", avatarUrl: "https://i.pravatar.cc/150?img=1" },
   { id: "24", username: "Bob", avatarUrl: "https://i.pravatar.cc/150?img=2" },
   { id: "25", username: "Alice", avatarUrl: "https://i.pravatar.cc/150?img=1" },
-  { id: "26", username: "Bob", avatarUrl: "https://i.pravatar.cc/150?img=2" },
+  { id: "26", username: "Bob1", avatarUrl: "https://i.pravatar.cc/150?img=2" },
 ];
 
 const comments = [
   { id: "1", username: "Charlie", comment: "Nice post!" },
   { id: "2", username: "Dave", comment: "Awesome!" },
+  { id: "11", username: "Charlie", comment: "Nice post!" },
+  { id: "12", username: "Dave", comment: "Awesome!" },
+  { id: "21", username: "Charlie", comment: "Nice post!" },
+  { id: "22", username: "Dave", comment: "Awesome!" },
+  { id: "31", username: "Charlie", comment: "Nice post!" },
+  { id: "32", username: "Dave", comment: "Awesome!" },
+  { id: "41", username: "Charlie", comment: "Nice post!" },
+  { id: "42", username: "Dave", comment: "Awesome!" },
+  { id: "51", username: "Charlie", comment: "Nice post!" },
+  { id: "62", username: "Dave", comment: "Awesome!" },
+  { id: "71", username: "Charlie", comment: "Nice post!" },
+  { id: "82", username: "Dave", comment: "Awesome!" },
 ];
 
 function CustomTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
@@ -111,28 +124,24 @@ function CustomTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
 }
 
 const LikesScreen = () => (
-  <FlatList
-    data={likes}
-    keyExtractor={(item) => item.id}
-    renderItem={({ item }) => (
-      <View className="py-2 flex-row items-center bg-white">
+  <ScrollView showsVerticalScrollIndicator={false}>
+    {likes.map((item) => (
+      <View className="py-2 flex-row items-center bg-white" key={item.id}>
         <Image
           source={{ uri: item.avatarUrl }}
           className="w-12 h-12 rounded-full mr-3 bg-slate-600"
         />
         <Text className="font-semibold text-lg">{item.username}</Text>
       </View>
-    )}
-    contentContainerStyle={{ paddingVertical: 10 }}
-    style={{ backgroundColor: "#fff" }}
-  />
+    ))}
+  </ScrollView>
 );
 const CommentsScreen = () => {
   const [text, setText] = useState("");
 
   return (
     <View className="flex-1 bg-white pt-3">
-      <FlatList
+      {/* <FlatList
         data={comments}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
@@ -155,8 +164,20 @@ const CommentsScreen = () => {
           />
         )}
         contentContainerStyle={{ paddingBottom: 70 }}
-      />
-      <View className="flex-row items-center bg-white absolute bottom-0 left-0 right-0">
+      /> */}
+      <ScrollView showsVerticalScrollIndicator={false} className="mb-12">
+        {comments.map((item) => (
+          <CommentItem
+            key={item.id}
+            avatarUrl="https://i.pravatar.cc/150"
+            username={item.username}
+            time={new Date()}
+            content={item.comment}
+            onReply={() => console.log("Reply to comment")}
+          />
+        ))}
+      </ScrollView>
+      <View className="flex-row pt-2 items-center bg-white absolute bottom-0 left-0 right-0">
         <Image
           source={{ uri: "https://i.pravatar.cc/150" }}
           className="w-12 h-12 rounded-full mr-2 bg-slate-600"

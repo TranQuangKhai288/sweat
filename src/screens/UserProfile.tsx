@@ -7,8 +7,16 @@ import {
   ScrollView,
   SafeAreaView,
   StatusBar,
+  Modal,
 } from "react-native";
-import { Menu, Camera, User, Edit, Trash2 } from "lucide-react-native";
+import {
+  Menu,
+  Camera,
+  User,
+  Edit,
+  Trash2,
+  UserPlus,
+} from "lucide-react-native";
 //insets
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import PostCard from "../components/Post/PostCard";
@@ -19,6 +27,8 @@ import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../navigation/AppNavigation";
 import { useBottomSheet } from "../contexts/BottomSheetContext";
+import { LinearGradient } from "expo-linear-gradient";
+import RenderFriendStatusButton from "../components/FriendStatusButton";
 
 type Friend = {
   id: string;
@@ -66,9 +76,11 @@ const friends: Friend[] = [
   },
 ];
 
-const ProfileScreen: React.FC = () => {
+const UserProfileScreen: React.FC = () => {
   const insets = useSafeAreaInsets();
   const { openBottomSheet, closeBottomSheet } = useBottomSheet();
+
+  const [modalVisible, setModalVisible] = useState(false);
 
   const totalFriends = 120;
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
@@ -82,30 +94,7 @@ const ProfileScreen: React.FC = () => {
         showsVerticalScrollIndicator={false}
       >
         {/* Header */}
-        <View
-          className="h-60 w-full bg-blue-500
-        rounded-b-3xl shadow-lg "
-        >
-          <View
-            className="items-end"
-            style={{ paddingTop: insets.top, marginRight: 4 }}
-          >
-            <TouchableOpacity
-              className="p-2"
-              onPress={() => {
-                navigation.navigate("Setting");
-              }}
-            >
-              <Menu color="white" size={24} />
-            </TouchableOpacity>
-          </View>
-
-          <View className="absolute bottom-4 right-4">
-            <TouchableOpacity className="bg-[#424242] p-2 rounded-full">
-              <Camera size={16} color="white" />
-            </TouchableOpacity>
-          </View>
-        </View>
+        <View className="h-60 w-full bg-blue-500 rounded-b-3xl shadow-lg "></View>
 
         {/* Profile section */}
         <View className="mt-12 mx-4 pb-4 items-center border-b-2 border-gray-200">
@@ -119,27 +108,17 @@ const ProfileScreen: React.FC = () => {
             ) : (
               <User size={40} color="#888" />
             )}
-            <View className="absolute bottom-0 right-0 bg-[#424242] p-2 rounded-full">
-              <Camera size={16} color="white" />
-            </View>
           </View>
 
           {/* User info */}
           <Text className="text-xl font-bold mt-6">{user.name}</Text>
           <Text className="text-base font-normal mt-1">{user.bio}</Text>
-
-          {/* Edit profile button */}
-          <TouchableOpacity
-            className="mt-4 border border-[#F96D40] rounded-full px-6 py-2 w-full"
-            activeOpacity={0.7}
-            onPress={() => {
-              navigation.navigate("EditProfile");
+          <RenderFriendStatusButton
+            status="Bạn bè"
+            onUnfriend={() => {
+              setModalVisible(true);
             }}
-          >
-            <Text className="text-center text-black text-lg font-bold">
-              Chỉnh sửa trang cá nhân
-            </Text>
-          </TouchableOpacity>
+          />
         </View>
 
         {/* Friends section */}
@@ -147,8 +126,7 @@ const ProfileScreen: React.FC = () => {
           <View className="flex-row justify-between items-center mb-3">
             <View className="flex-col items-start justify-center">
               <Text
-                className="font-bold 
-                            "
+                className="font-bold "
                 style={{
                   fontSize: 18,
                 }}
@@ -256,8 +234,62 @@ const ProfileScreen: React.FC = () => {
           ))}
         </View>
       </ScrollView>
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(false);
+        }}
+      >
+        <View className="flex-1 justify-center items-center bg-black/50">
+          <View className="bg-white rounded-2xl p-6 w-[85%] ">
+            <Text className="text-2xl font-bold text-center mb-4">
+              Huỷ kết bạn
+            </Text>
+
+            <View className="bg-gray-100 rounded-xl px-4 py-3 mb-6">
+              <Text className="text-center text-xl font-medium  text-black">
+                Bạn có chắc chắn muốn{"\n"}huỷ kết bạn?
+              </Text>
+            </View>
+
+            <View className="flex-row justify-between gap-4">
+              <TouchableOpacity
+                className="rounded-full flex-1"
+                activeOpacity={0.8}
+                onPress={() => {
+                  // Handle unfriend action here
+                  setModalVisible(false);
+                }}
+              >
+                <LinearGradient
+                  colors={["#F96D40", "#FF965D"]}
+                  className="py-3 px-6"
+                  style={{ borderRadius: 50 }}
+                >
+                  <Text className="text-white text-xl text-center font-semibold">
+                    Xác nhận
+                  </Text>
+                </LinearGradient>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                className="flex-1 border border-[#F96D40] rounded-full py-3 bg-white"
+                onPress={() => {
+                  setModalVisible(false);
+                }}
+              >
+                <Text className="text-center text-xl  font-semibold text-black">
+                  Hủy
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 };
 
-export default ProfileScreen;
+export default UserProfileScreen;

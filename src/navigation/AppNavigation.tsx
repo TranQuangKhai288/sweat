@@ -16,18 +16,21 @@ import EditProfile from "../screens/EditProfile";
 import Setting from "../screens/Setting";
 import Splash from "../screens/Splash";
 
-// import ProfileScreen from '../screens/ProfileScreen';
+import UserProfileScreen from "../screens/UserProfile";
+import LoginScreen from "../screens/Login";
 // import MatchScreen from '../screens/MatchScreen';
 // import ChatScreen from '../screens/ChatScreen';
 
 // Định nghĩa type cho stack navigation
 export type RootStackParamList = {
+  Login: undefined;
   Main: undefined;
   EditProfile: undefined;
   Setting: undefined;
   CreateNewPost: undefined;
   SearchScreen: undefined;
   Splash: undefined;
+  UserProfile: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -57,13 +60,15 @@ const AppNavigator: React.FC = () => {
           options={{ headerShown: false }}
         />
 
+        <Stack.Screen name="Login" component={LoginScreen} />
+
         {/* Post */}
         <Stack.Screen name="CreateNewPost" component={CreateNewPost} />
         <Stack.Screen name="SearchScreen" component={SearchScreen} />
 
         <Stack.Screen name="EditProfile" component={EditProfile} />
         <Stack.Screen name="Setting" component={Setting} />
-        {/* <Stack.Screen name="Chat" component={ChatScreen} /> */}
+        <Stack.Screen name="UserProfile" component={UserProfileScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -8,6 +8,9 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Ellipsis } from "lucide-react-native";
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { RootStackParamList } from "../../navigation/AppNavigation";
 
 interface UserInfoProps {
   username: string;
@@ -22,6 +25,8 @@ const UserInfo: React.FC<UserInfoProps> = ({
   time,
   onEditPress,
 }) => {
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+
   //Tính thời gian đã đăng trước đó
   const timeDiff = new Date().getTime() - time.getTime();
   const minutesDiff = Math.floor(timeDiff / 1000 / 60);
@@ -59,7 +64,13 @@ const UserInfo: React.FC<UserInfoProps> = ({
       }}
     >
       {/* Avatar can be added here if needed */}
-      <View style={styles.container}>
+      <TouchableOpacity
+        style={styles.container}
+        activeOpacity={1}
+        onPress={() => {
+          navigation.navigate("UserProfile"); // Replace with actual user ID
+        }}
+      >
         <Image
           source={{ uri: avatarUrl }}
           style={{
@@ -74,7 +85,7 @@ const UserInfo: React.FC<UserInfoProps> = ({
           <Text style={styles.username}>{username}</Text>
           <Text style={styles.time}>{timeString}</Text>
         </View>
-      </View>
+      </TouchableOpacity>
 
       <TouchableOpacity onPress={onEditPress}>
         <Ellipsis size={26} color="#424242" />
